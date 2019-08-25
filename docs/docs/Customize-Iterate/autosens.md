@@ -1,10 +1,15 @@
 # Auto-sensitivity mode (Autosens)
 
+.. note:: 
+   **Commiting pump ISF changes to Open APS**
+   
+   If you have made ISF changes on your pump, they will not be used for for autosens calculations, until you have [re-run auto tune in your myopenaps directory](https://openaps.readthedocs.io/en/latest/docs/Customize-Iterate/autotune.html?highlight=Autotune#running-manually-in-your-myopenaps-directory), otherwise (if enabled) they will be picked up in the next nightly autotune run.
 
 Wouldn't it be great if the system knew when you were running sensitive or resistant? That's what we thought, so we created "auto-sensitivity mode". If you explicitly configure this additional feature (again by enabling it through features in setup script), it will allow the system to analyze historical data on-the-go and make adjustments if it recognizes that you are reacting more sensitively (or conversely, more resistant) to insulin than usual. Autosens will then make temporary adjustments to the basal, ISF, and targets used for calculating temp basals, in order to keep BG closer to your configured target.
 
 When you watch your autosens log (shortcut command is `autosens-looplog`) and sensitivity changes is going to be detected, you might see something like this:
-******************
+
+```
 Calculating sensitivity using 8h of non-exluded data
 Setting lastSiteChange to Tue Dec 19 2017 09:42:24 GMT-0600 (CST) using timestamp 2017-12-19T09:42:24-06:00
 u(xxxxxxxxxxxx11hxxxxxxxxxxxx12h=43g(xxxxxxxxxxxx13hxxxxxxxxxxxx14h=xxx45gxxxxxxxxx15hxxxxxxxxxxx16h=xxxxxxxx17hxxxxxx0gx)u(xxxxx18h=x35g(xx46gxxxxxxxxx19hxxxxxxx38gxxxxx20h=xxxxxxxxxxxx21hxxxxxx-x-x-x-x-x-x-22h=x-x-x-x-x-xxxxxxx23hxx0gx
@@ -23,7 +28,9 @@ Sensitivity normal.
 ISF adjusted from 120 to 120
 Using 24h autosens ratio of 1 (ISF 120)
 Autosens refreshed: {"ratio":1}
-******************
+
+```
+
 Here's what each symbol above means:
 
  "x"  : deviation is excluded.  All deviations are excluded when there is COB through the time that COB drops to zero (carbs are fully absorbed) and deviations go negative once again.  This is appropriate to eliminate the impact of rising BG due to carb absorption from sensitivity calcualations and not falsely attribute it to insulin resistance.  Deviations may also be excluded becuase of an unexplained high deviation (site failure, etc).
